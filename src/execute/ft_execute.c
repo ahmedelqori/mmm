@@ -6,7 +6,7 @@
 /*   By: ael-qori <ael-qori@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:14:29 by ael-qori          #+#    #+#             */
-/*   Updated: 2024/02/22 20:06:59 by ael-qori         ###   ########.fr       */
+/*   Updated: 2024/02/22 20:11:19 by ael-qori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,8 @@ void	ft_execute(t_list_pipe *lst , int *fd)
 	
 	if (lst->next)
 		dup2(fd[0],STDIN_FILENO);
-	(void)tmp_input;
+	if (input != tmp_input)
+		dup2(input, STDIN_FILENO);
 	// }
 }
 
