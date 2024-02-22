@@ -6,7 +6,7 @@
 /*   By: ael-qori <ael-qori@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:14:29 by ael-qori          #+#    #+#             */
-/*   Updated: 2024/02/22 19:58:42 by ael-qori         ###   ########.fr       */
+/*   Updated: 2024/02/22 20:06:59 by ael-qori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,10 +80,15 @@ void	ft_execute(t_list_pipe *lst , int *fd)
 	t_list	*list;
 	int input;
 	int output;
+	int tmp_input;
+	int tmp_output;
 	// int org = dup(STDOUT_FILENO);
 
 	input = dup(STDIN_FILENO);
 	output = dup(STDOUT_FILENO);
+	// printf("Before: %d\n",output);
+	tmp_input = input;
+	tmp_output = output;
 	root = lst->root;
 	list = NULL;
 	tree_help(root, &list, &output,&input);
@@ -114,12 +119,12 @@ void	ft_execute(t_list_pipe *lst , int *fd)
 	if (pid == 0)
 	{
 		close(fd[0]);
-		// // printf("%d\n",output);
-		// if (output == 5)
-		dup2(output, STDOUT_FILENO);
+		// printf("After %d\n",output);
 		// {
 		if (lst->next)
 			dup2(fd[1],STDOUT_FILENO);
+		if (output != tmp_output)
+			dup2(output, STDOUT_FILENO);
 	
 		// }
 		execve(ft_strjoin("/bin/", arr[0]), arr, NULL) ;
@@ -130,7 +135,10 @@ void	ft_execute(t_list_pipe *lst , int *fd)
 	// if (lst->next && input == 6)
 	// {
 	// 	write(1, "HHH\n",4);
+	
+	if (lst->next)
 		dup2(fd[0],STDIN_FILENO);
+	(void)tmp_input;
 	// }
 }
 
