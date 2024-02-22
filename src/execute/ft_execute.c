@@ -6,7 +6,7 @@
 /*   By: ael-qori <ael-qori@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:14:29 by ael-qori          #+#    #+#             */
-/*   Updated: 2024/02/22 20:11:19 by ael-qori         ###   ########.fr       */
+/*   Updated: 2024/02/22 20:29:30 by ael-qori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,34 +113,34 @@ void	ft_execute(t_list_pipe *lst , int *fd)
 	arr[len] = NULL;
 	i = 0;
 	
-	// int org_input = dup(STDIN_FILENO);
 	int pid = fork();
-	// int check = 0;
+	if (lst->next && tmp_input != input)
+	{
+		close(fd[1]);
+		dup2(fd[0],STDIN_FILENO);
+	}
 	if (pid == 0)
 	{
 		close(fd[0]);
-		// printf("After %d\n",output);
-		// {
 		if (lst->next)
 			dup2(fd[1],STDOUT_FILENO);
 		if (output != tmp_output)
+		{
+			close(fd[1]);
 			dup2(output, STDOUT_FILENO);
-	
-		// }
+		}
 		execve(ft_strjoin("/bin/", arr[0]), arr, NULL) ;
 	}
-	waitpid(pid, NULL,0);
+	wait(NULL);
 	close(fd[1]);
-	// dup2(input, STDIN_FILENO);
-	// if (lst->next && input == 6)
-	// {
-	// 	write(1, "HHH\n",4);
-	
 	if (lst->next)
 		dup2(fd[0],STDIN_FILENO);
 	if (input != tmp_input)
+	{
 		dup2(input, STDIN_FILENO);
-	// }
+		close(fd[0]);
+	}
+
 }
 
 
