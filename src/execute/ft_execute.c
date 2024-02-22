@@ -6,7 +6,7 @@
 /*   By: ael-qori <ael-qori@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:14:29 by ael-qori          #+#    #+#             */
-/*   Updated: 2024/02/22 14:37:07 by ael-qori         ###   ########.fr       */
+/*   Updated: 2024/02/22 19:58:42 by ael-qori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,27 +114,26 @@ void	ft_execute(t_list_pipe *lst , int *fd)
 	if (pid == 0)
 	{
 		close(fd[0]);
+		// // printf("%d\n",output);
+		// if (output == 5)
 		dup2(output, STDOUT_FILENO);
-		// printf("%d\n",output);
-		if (output == 5)
-		{
-			printf("test");	
+		// {
+		if (lst->next)
 			dup2(fd[1],STDOUT_FILENO);
-		}
+	
+		// }
 		execve(ft_strjoin("/bin/", arr[0]), arr, NULL) ;
 	}
-	wait(NULL);
+	waitpid(pid, NULL,0);
 	close(fd[1]);
-	dup2(input, STDIN_FILENO);
-	if (lst->next && input == 6)
-	{
-		write(1, "HHH\n",4);
+	// dup2(input, STDIN_FILENO);
+	// if (lst->next && input == 6)
+	// {
+	// 	write(1, "HHH\n",4);
 		dup2(fd[0],STDIN_FILENO);
-	}
-	// close(fd[0]);
+	// }
 }
 
-#include <sys/wait.h>
 
 void handle_multiple_pipe(t_list_pipe *lst) {
 	int fd[2];
@@ -145,8 +144,8 @@ void handle_multiple_pipe(t_list_pipe *lst) {
     	ft_execute(lst, fd);
         lst = lst->next;
     }
-    dup2(org_stdout, STDOUT_FILENO);
-    dup2(org_stdin, STDIN_FILENO);
+	dup2(org_stdout, STDOUT_FILENO);
+	dup2(org_stdin, STDIN_FILENO);
 }
 
 
