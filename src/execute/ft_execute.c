@@ -6,7 +6,7 @@
 /*   By: ael-qori <ael-qori@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:14:29 by ael-qori          #+#    #+#             */
-/*   Updated: 2024/02/23 13:00:54 by ael-qori         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:30:39 by ael-qori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,19 @@ void	tree_help(t_tree *tree, t_list **list, int *output,int *input )
 		{
 			fd = open(root->left->command,O_CREAT|O_WRONLY|O_TRUNC,0777);
 			if (fd != -1)
+			{
+				close(*output);
 				*output = fd;
+			}
 		}
 		if (root->left && root->command[0] == INPUT)
 		{
 			fd = open(root->left->command,O_RDONLY,0777);
 			if (fd != -1)
+			{
+				close(*input);
 				*input = fd;
-
+			}
 		}
 	}
 	if (root->command[0] != OUTPUT && root->command[0] != INPUT)
