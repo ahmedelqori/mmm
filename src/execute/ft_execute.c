@@ -6,7 +6,7 @@
 /*   By: ael-qori <ael-qori@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:14:29 by ael-qori          #+#    #+#             */
-/*   Updated: 2024/02/22 20:29:30 by ael-qori         ###   ########.fr       */
+/*   Updated: 2024/02/23 10:14:18 by ael-qori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_ladd_back(t_l **lst, t_l *new)
 		head->next = new;
 	}
 }
-void	tree_help(t_tree *tree, t_list **list, int *output,int *input)
+void	tree_help(t_tree *tree, t_list **list, int *output,int *input )
 {
 	t_tree	*root;
 	int fd;
@@ -57,13 +57,14 @@ void	tree_help(t_tree *tree, t_list **list, int *output,int *input)
 		{
 			fd = open(root->left->command,O_CREAT|O_WRONLY|O_TRUNC,0777);
 			if (fd != -1)
-				*output = fd;;
+				*output = fd;
 		}
 		if (root->left && root->command[0] == INPUT)
 		{
 			fd = open(root->left->command,O_RDONLY,0777);
 			if (fd != -1)
 				*input = fd;
+
 		}
 	}
 	if (root->command[0] != OUTPUT && root->command[0] != INPUT)
@@ -114,33 +115,35 @@ void	ft_execute(t_list_pipe *lst , int *fd)
 	i = 0;
 	
 	int pid = fork();
-	if (lst->next && tmp_input != input)
-	{
-		close(fd[1]);
-		dup2(fd[0],STDIN_FILENO);
-	}
+	
 	if (pid == 0)
 	{
-		close(fd[0]);
+		if (tmp_input != input)
+			dup2(input,STDIN_FILENO);
 		if (lst->next)
 			dup2(fd[1],STDOUT_FILENO);
 		if (output != tmp_output)
-		{
-			close(fd[1]);
 			dup2(output, STDOUT_FILENO);
-		}
+		close(fd[1]);
+		close(fd[0]);
+		close(input);
+		close(output);
+		close(tmp_input);
+		close(tmp_output);
 		execve(ft_strjoin("/bin/", arr[0]), arr, NULL) ;
+		exit(1);
 	}
 	wait(NULL);
-	close(fd[1]);
 	if (lst->next)
 		dup2(fd[0],STDIN_FILENO);
 	if (input != tmp_input)
-	{
 		dup2(input, STDIN_FILENO);
-		close(fd[0]);
-	}
-
+	close(fd[1]);
+	close(fd[0]);
+	close(input);
+	close(output);
+	close(tmp_input);
+	close(tmp_output);
 }
 
 
@@ -155,6 +158,8 @@ void handle_multiple_pipe(t_list_pipe *lst) {
     }
 	dup2(org_stdout, STDOUT_FILENO);
 	dup2(org_stdin, STDIN_FILENO);
+	close(org_stdin);
+	close(org_stdout);
 }
 
 

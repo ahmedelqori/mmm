@@ -6,7 +6,7 @@
 /*   By: ael-qori <ael-qori@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 09:10:17 by ael-qori          #+#    #+#             */
-/*   Updated: 2024/02/22 13:16:12 by ael-qori         ###   ########.fr       */
+/*   Updated: 2024/02/22 21:32:56 by ael-qori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ void	minishell(t_env *env)
 	char	*prompt;
 	char	*fixed_input;
 	t_list_pipe	*lst;
-	int org_input = dup(STDIN_FILENO);
-	int org = dup(STDOUT_FILENO);
+	// int org_input = dup(STDIN_FILENO);
+	// int org = dup(STDOUT_FILENO);
 
 	lst = NULL;
 	while (1)
@@ -73,8 +73,8 @@ void	minishell(t_env *env)
 		// ft_execute(lst);
 		handle_multiple_pipe(lst);
 		// ft_print_lstpipe(lst);
-		dup2(org, STDOUT_FILENO);
-		dup2(org_input, STDIN_FILENO);
+		// dup2(org, STDOUT_FILENO);
+		// dup2(org_input, STDIN_FILENO);
 		(void)lst;
 	}
 }
