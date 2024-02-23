@@ -6,7 +6,7 @@
 /*   By: ael-qori <ael-qori@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:14:29 by ael-qori          #+#    #+#             */
-/*   Updated: 2024/02/23 10:14:18 by ael-qori         ###   ########.fr       */
+/*   Updated: 2024/02/23 13:00:54 by ael-qori         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,11 +115,12 @@ void	ft_execute(t_list_pipe *lst , int *fd)
 	i = 0;
 	
 	int pid = fork();
-	
+	if (input != tmp_input)
+		dup2(input, STDIN_FILENO);
 	if (pid == 0)
 	{
-		if (tmp_input != input)
-			dup2(input,STDIN_FILENO);
+		// if (tmp_input != input)
+		// 	dup2(input,STDIN_FILENO);
 		if (lst->next)
 			dup2(fd[1],STDOUT_FILENO);
 		if (output != tmp_output)
@@ -136,8 +137,8 @@ void	ft_execute(t_list_pipe *lst , int *fd)
 	wait(NULL);
 	if (lst->next)
 		dup2(fd[0],STDIN_FILENO);
-	if (input != tmp_input)
-		dup2(input, STDIN_FILENO);
+	// if (input != tmp_input)
+	// 	dup2(input, STDIN_FILENO);
 	close(fd[1]);
 	close(fd[0]);
 	close(input);
