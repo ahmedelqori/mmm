@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-qori <ael-qori@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: meedivo <meedivo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 13:14:29 by ael-qori          #+#    #+#             */
-/*   Updated: 2024/02/23 14:56:44 by ael-qori         ###   ########.fr       */
+/*   Updated: 2024/02/27 14:26:36 by meedivo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 typedef struct s_l{
 	int n;
 	struct s_l *next;

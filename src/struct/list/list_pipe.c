@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ael-qori <ael-qori@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: meedivo <meedivo@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 09:26:35 by ael-qori          #+#    #+#             */
-/*   Updated: 2024/02/15 10:12:49 by ael-qori         ###   ########.fr       */
+/*   Updated: 2024/02/27 14:18:03 by meedivo          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,36 +41,6 @@ void	ft_lstpipe_add_back(t_list_pipe **lst, t_list_pipe *new)
 	}
 }
 
-void	ft_print_tree(t_tree *root)
-{
-	if (!root)
-		return;
-	printf(BOLDGREEN"ROOT: %s\n"RESET,root->command);
-
-	if (root->left)
-	{
-		printf(BOLDYELLOW"ROOT: %s\t LEFT: %s\n"RESET,root->command , root->left->command);
-		ft_print_tree(root->left);
-	}
-	if (root->right)
-	{
-		printf(BOLDMAGENTA"ROOT: %s\t RIGHT: %s\n"RESET,root->command , root->right->command);
-		ft_print_tree(root->right);
-	}
-}
-
-void	ft_print_lstpipe(t_list_pipe	*lst)
-{
-	while(lst)
-	{
-		ft_print_tree(lst->root);
-		printf(BOLDBLUE"\n==========================\n");
-		lst = lst->next;
-	}
-}
-
-
-
 t_list_pipe	*ft_create_list(char	**arr)
 {
 	t_list_pipe	*head;
@@ -93,3 +63,32 @@ t_list_pipe	*ft_create_list(char	**arr)
 	}
 	return (head);
 }
+// void	ft_print_tree(t_tree *root)
+// {
+// 	if (!root)
+// 		return;
+// 	printf(BOLDGREEN"ROOT: %s\n"RESET,root->command);
+
+// 	if (root->left)
+// 	{
+// 		printf(BOLDYELLOW"ROOT: %s\t LEFT: %s\n"RESET,root->command , root->left->command);
+// 		ft_print_tree(root->left);
+// 	}
+// 	if (root->right)
+// 	{
+// 		printf(BOLDMAGENTA"ROOT: %s\t RIGHT: %s\n"RESET,root->command , root->right->command);
+// 		ft_print_tree(root->right);
+// 	}
+// }
+
+// void	ft_print_lstpipe(t_list_pipe	*lst)
+// {
+// 	while(lst)
+// 	{
+// 		ft_print_tree(lst->root);
+// 		printf(BOLDBLUE"\n==========================\n");
+// 		lst = lst->next;
+// 	}
+// }
+
+
